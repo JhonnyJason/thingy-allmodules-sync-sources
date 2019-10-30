@@ -1,7 +1,7 @@
-# thingy-module-gen - commandline wizard to easify the generation of a thingy module
+# thingy-allmodules-sync - commandline wizard to create the appropriate allmodules files
 
 # Why?
-The process of copying and refactoring an existing module is too tedious. Also we can add further more complex functionality here later - module being git submodule and more.
+The process of adding a newly added module or erasing them from the allmodules files is too tedious.
 
 Usually this tool is used from a a thingy toolset.
 
@@ -11,49 +11,30 @@ Installation
 
 Current git version
 ``` sh
-$ npm install git+https://github.com/JhonnyJason/thingy-module-gen-output.git
+$ npm install git+https://github.com/JhonnyJason/thingy-allmodules-sync-output.git
 ```
 Npm Registry
 ``` sh
-$ npm install thingy-module-gen
+$ npm install thingy-allmodules-sync
 ```
-
 
 Usage
 -----
 
 ``` sh
-$ thingy-module-gen <moduleName> <thingyPath>
+$ thingy-allmodules-sync <thingyPath>
 ```
 
 The `thingyPath` is optional and will be current working directory when being omitted.
 
-The generation will fail when we are not in a thingy root. That means that we should have a `sources/source` directory where we can add the new module.
+The generation will fail when we are not in a thingy root. That means that we should have a `sources/source/allmodules` we will add our files.
 
-The generation will also fail when we already have a directory with the same module name in `sources/source`.
-
-The tool will ask the basic files to be generated for the new module.
-
-Usually I go for a specific nameming. That is all modules are usually names like `newcomponentmodule`.
-That means that usually the coffee file is `newcomponentmodule.coffee` then the pug file is `newcomponent.put` and the style file will always be just `styles.styl`.
-
-Example
------
-``` sh
-$ thingy-module-gen newcomponentmodule
- Module newcomponentmodule may be created!
-? Which file do you need for this module? 
- ◉ .coffee
-❯◯ .pug
- ◯ styles.styl
-
-```
+We have two styles for the modules.coffee file - either we have the require style or the import style. In any case we will export the module containing all modules in the same style.
 
 # Further steps
-This tool will be adjusted to prepare a module to all its behaviours.
+Are there any? 
 
-- module being it's own git submodule for code sharing
-- introduce possibility to package module as node_module (add module as thingy-module when we continue to develop on it - add module as node_module when only using the module)
+- inject all modules into debugmodule? 
 - ...
 
 All sorts of inputs are welcome, thanks!

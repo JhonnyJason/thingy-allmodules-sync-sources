@@ -1,8 +1,7 @@
 utilmodule = {name: "utilmodule"}
 
 #region noode_modules
-execFile  = require('child_process').execFile
-exec = require("child_process").exec
+fs = require "fs-extra"
 #endregion
 
 #log Switch
@@ -25,35 +24,21 @@ utilmodule.initialize = () ->
 #endregion
 
 #region exposed functions
-utilmodule.isFullURL = (url) ->
-    if url.length < 20 then return false
-    checker = url.substr(0,8)
-    
-    if checker == "https://" then return true
-    if checker == "git@gith" then return true
-    return false
+utilmodule.pathIsDir = (path) ->
+    try
+        stats = await fs.lstat(path)
+        return stats.isDirectory()
+    catch err
+        # console.log(c.red(err.message))
+        return false
 
-utilmodule.capitaliseFirstLetter = (string)  ->
-    return string.charAt(0).toUpperCase() + string.slice(1)
-
-utilmodule.execScriptPromise = (script, options) ->    
-    return new Promise (resolve, reject) ->
-        callback = (error, stdout, stderr) ->
-            if error then reject(error)
-            if stderr then reject(new Error(stderr))
-            resolve(stdout)
-        execFile(script, options, callback)
-
-utilmodule.execGitCheckPromise = (path) ->
-    options = 
-        cwd: path
-    
-    return new Promise (resolve, reject) ->
-        callback = (error, stdout, stderr) ->
-            if error then reject(error)
-            if stderr then reject(new Error(stderr))
-            resolve(stdout)
-        exec("git rev-parse --is-inside-work-tree", options, callback)
+utilmodule.pathExists = (path) ->
+    try
+        await fs.lstat(path)
+        return true
+    catch err
+        # console.log(c.red(err.message))
+        return false
 #endregion
 
 module.exports = utilmodule

@@ -13,14 +13,14 @@ log = (arg) ->
 errLog = (arg) -> console.log(c.red(arg))
 successLog = (arg) -> console.log(c.green(arg))
 
-generateProcess = null
+syncProcess = null
 cliArguments = null
 #endregion
 
 ##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
 startupmodule.initialize = () ->
     log "startupmodule.initialize"
-    generateProcess = allModules.generateprocessmodule
+    syncProcess = allModules.syncprocessmodule
     cliArguments = allModules.cliargumentsmodule
 
 #region internal functions
@@ -32,7 +32,7 @@ startupmodule.cliStartup = ->
     try
         e = cliArguments.extractArguments()
         # console.log(chalk.yellow("caught arguments are: " + args._))
-        done = await generateProcess.execute(e.name, e.thingyPath)
+        done = await syncProcess.execute(e.thingyPath)
         if done then successLog 'All done!'
     catch err
         errLog 'Error!'

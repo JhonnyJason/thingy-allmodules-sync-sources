@@ -7,13 +7,13 @@ debugmodule.initialize = () ->
 
 debugmodule.modulesToDebug = 
     unbreaker: true
+    # allmodulesgenmodule: true
     # cliargumentsmodule: true
     # configmodule: true
-    # generateprocessmodule: true
-    # modulegenmodule: true
+    # syncprocessmodule: true
+    # modulesearchmodule: true
     # pathhandlermodule: true
     # startupmodule: true
-    # userinquirymodule: true
     # utilmodule: true
 
 #region exposed variables
