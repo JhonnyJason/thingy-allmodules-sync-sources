@@ -70,9 +70,9 @@ All sorts of inputs are welcome, thanks!
 - Information only has memory to reside in and relations to be meaningful.
 - Information cannot be stolen. Only shared or destroyed.
 
-And you whish it has been shared before it is destroyed.
+And you wish it has been shared before it is destroyed.
 
-The one claiming copyright or intellectual property either is really evil or probably has some insecurity issues which makes him blind to the fact that he also just connected information which was free available to him.
+The one claiming copyright or intellectual property either is really evil or probably has some insecurity issues which makes him blind to the fact that he also just connected information which was freely available to him.
 
 The value is not in him who "created" the information the value is what is being done with the information.
 So the restriction and friction of the informations' usage is exclusively reducing value overall.
