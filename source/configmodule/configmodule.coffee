@@ -9,5 +9,8 @@ log = (arg) ->
 configmodule.initialize = () ->
     log "configmodule.initialize"
     return
-    
+
+configmodule.outputCoffeeName = "allmodules.coffee"
+configmodule.outputStylusName = "allstyles.styl"
+
 module.exports = configmodule

@@ -5,6 +5,11 @@ The process of adding a newly added module or erasing them from the allmodules f
 
 Usually this tool is used from a a thingy toolset.
 
+# What?
+This tool will scan through all modules available in `sources/source/` of the specified thingy.
+For each module being a module (identified by having a name whichs ends with "module") we will add an import statement
+to the `allmodules.coffee` and `allstyles.styl` files. Those files may be found at `sources/source/allmodules/`.
+
 # How?
 Installation
 ------------
@@ -21,16 +26,32 @@ $ npm install thingy-allmodules-sync
 Usage
 -----
 
-``` sh
-$ thingy-allmodules-sync <thingyPath>
+```sh
+    Usage
+        $ thingy-allmodules-sync <arg1> <arg2>
+
+    Options
+        optional:
+            arg1, --thingy-path <path/to/thingy>, -p <path/to/thingy> [default: ./ ]
+                path to the root of the thingy. Usually it is cwd. Use it if you call this script from somewhere else.
+            arg2, --style <importStyle>, -s <importStyle> [default: import]
+                determines if we use require or import can either be "require" or "import"
+    TO NOTE:
+        The flags will overwrite the flagless argument.
+    Examples
+        $ thingy-allmodules-sync 
+        ...
 ```
 
-The `thingyPath` is optional and will be current working directory when being omitted.
+The `thingyPath` is optional and will be the current working directory when being omitted.
+Also 'style' is optional and will be "import" when being omitted.
 
 The generation will fail when we are not in a thingy root. That means that we should have a `sources/source/allmodules` we will add our files.
 
-We have two styles for the modules.coffee file - either we have the require style or the import style. In any case we will export the module containing all modules in the same style.
+We have two styles for the allmodules.coffee file - either we have the require style or the import style. In any case we will export the module containing all modules in the same style.
 
+If you use a nodejs thingy then you might want to use the require style. Then you should provide the `--style require` argument.
+ 
 # Further steps
 Are there any? 
 

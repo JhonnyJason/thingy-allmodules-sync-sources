@@ -22,11 +22,10 @@ modulesearchmodule.initialize = () ->
     return
     
 #region internal functions
-isModule = (module) ->
-    switch module
-        when "allmodules" then return false
-        when "index" then return false
-        else return true
+isModule = (dirname) ->
+    if !dirname then return false
+    if dirname.endsWith("module") then return true
+    return false
 
 isCoffeeModule = (dir) ->
     # log "isCoffeeModule"
@@ -64,9 +63,6 @@ modulesearchmodule.searchModules = ->
     modules = {}
     modules.coffee = (result for result in coffeeResults when result)
     modules.style = (result for result in styleResults when result)
-
-    # log "modules.coffee:\n" + JSON.stringify(modules.coffee, null, 4)
-    # log "modules.style:\n" + JSON.stringify(modules.style, null, 4)
 
     return modules
 
