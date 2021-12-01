@@ -1,0 +1,11 @@
+{{#modules}}
+import * as {{.}} from "./{{.}}"
+{{/modules}}
+
+Modules = {
+{{#modules}}
+    {{.}},
+{{/modules}}
+}
+
+export default Modules

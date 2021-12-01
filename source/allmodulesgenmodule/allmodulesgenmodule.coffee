@@ -54,6 +54,7 @@ writeImportCoffee = (coffeeModules) ->
     
     # log "\n - - - \nfileContent:\n" + fileContent
     await fs.writeFile(filePath, fileContent)
+    return
 
 writeStyl = (styleModules) ->
     log "writeStyl"
@@ -68,14 +69,32 @@ writeStyl = (styleModules) ->
     
     # log "\n - - - \nfileContent:\n" + fileContent
     await fs.writeFile(filePath, fileContent)
+    return
+
+writeCoffee = (coffeeModules) ->
+    log "writeCoffee"
+
+    templatePath = pathModule.resolve(__dirname, "file-templates/allmodules.mustache")
+    fileName = cfg.outputCoffeeName
+    filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
+    # log "filePath: " + filePath
+
+    template = await fs.readFile(templatePath, "utf-8")        
+    fileContent = mustache.render(template, {modules: coffeeModules})
+    
+    # log "\n - - - \nfileContent:\n" + fileContent
+    await fs.writeFile(filePath, fileContent)
+
+    return
+
 #endregion
 
 #region exposedFunctions
 allmodulesgenmodule.generate = (modules, style) ->
     log "allmodulesgenmodule.generate"
 
-    if style == "import" then writeCoffee = writeImportCoffee
-    else writeCoffee = writeRequireCoffee
+    # if style == "import" then writeCoffee = writeImportCoffee
+    # else writeCoffee = writeRequireCoffee
 
     promises = []
     if modules.coffee && modules.coffee.length > 0
