@@ -26,40 +26,10 @@ allmodulesgenmodule.initialize = () ->
     return
 
 #region internalFunctions
-writeRequireCoffee = (coffeeModules) ->
-    log "writeCoffeeRequireStyle"
-
-    templatePath = pathModule.resolve(__dirname, "file-templates/require-template.coffee")
-    fileName = cfg.outputCoffeeName
-    filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
-    # log "filePath: " + filePath
-
-    template = await fs.readFile(templatePath, "utf-8")        
-    fileContent = mustache.render(template, {modules: coffeeModules})
-    
-    # log "\n - - - \nfileContent:\n" + fileContent
-    await fs.writeFile(filePath, fileContent)
-    return
-
-writeImportCoffee = (coffeeModules) ->
-    log "writeCoffeeImportStyle"
-
-    templatePath = pathModule.resolve(__dirname, "file-templates/import-template.coffee")
-    fileName = cfg.outputCoffeeName
-    filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
-    # log "filePath: " + filePath
-
-    template = await fs.readFile(templatePath, "utf-8")        
-    fileContent = mustache.render(template, {modules: coffeeModules})
-    
-    # log "\n - - - \nfileContent:\n" + fileContent
-    await fs.writeFile(filePath, fileContent)
-    return
-
 writeStyl = (styleModules) ->
     log "writeStyl"
 
-    templatePath = pathModule.resolve(__dirname, "file-templates/allstyles-template.styl")
+    templatePath = pathModule.resolve(__dirname, "file-templates/allstyles.mustache")
     fileName = cfg.outputStylusName
     filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
     # log "filePath: " + filePath
@@ -90,11 +60,8 @@ writeCoffee = (coffeeModules) ->
 #endregion
 
 #region exposedFunctions
-allmodulesgenmodule.generate = (modules, style) ->
+allmodulesgenmodule.generate = (modules) ->
     log "allmodulesgenmodule.generate"
-
-    # if style == "import" then writeCoffee = writeImportCoffee
-    # else writeCoffee = writeRequireCoffee
 
     promises = []
     if modules.coffee && modules.coffee.length > 0

@@ -32,7 +32,7 @@ startupmodule.cliStartup = ->
     try
         e = cliArguments.extractArguments()
         # console.log(chalk.yellow("caught arguments are: " + args._))
-        done = await syncProcess.execute(e.thingyPath, e.style)
+        done = await syncProcess.execute(e.thingyPath)
         if done then successLog 'All done!'
     catch err
         errLog 'Error!'

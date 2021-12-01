@@ -23,14 +23,13 @@ getHelpText = ->
     log "getHelpText"
     return """
     Usage
-        $ thingy-allmodules-sync <arg1> <arg2>
+        $ thingy-allmodules-sync <arg1>
 
     Options
         optional:
             arg1, --thingy-path <path/to/thingy>, -p <path/to/thingy> [default: ./ ]
                 path to the root of the thingy. Usually it is cwd. Use it if you call this script from somewhere else.
-            arg2, --style <importStyle>, -s <importStyle> [default: import]
-                determines if we use require or import can either be "require" or "import"
+
     TO NOTE:
         The flags will overwrite the flagless argument.
     Examples
@@ -45,9 +44,6 @@ getOptions = ->
             thingyPath:
                 type: "string"
                 alias: "p"
-            style:
-                type: "string"
-                alias: "s"
     }
 
 extractMeowed = (meowed) ->
@@ -57,34 +53,24 @@ extractMeowed = (meowed) ->
 
     if meowed.input[0]
         thingyPath = meowed.input[0]
-    if meowed.input[1]
-        style = meowed.input[1]
 
     if meowed.flags.thingyPath
         thingyPath = meowed.flags.thingyPath
-    if meowed.flags.style
-        style = meowed.flags.style
 
     # introducing the defaults here as they otherwise
     if !thingyPath then thingyPath = "."
-    if !style then style = "import"
 
-    return {thingyPath,style}
+    return {thingyPath}
 
 throwErrorOnUsageFail = (extract) ->
     log "throwErrorOnUsageFail"
     if !extract.thingyPath
         throw "fatal error: no default thingyPath was not available as fallback!"
-    if !extract.style
-        throw "fatal error: no default style was not available as fallback!"
     
     if !(typeof extract.thingyPath == "string")
         throw "Usage error: option thingyPath was provided in an unexpected way!"
-    if !(typeof extract.style == "string")
-        throw "Usage error: option style was provided in an unexpected way!"
-    if(extract.style != "import" and extract.style != "require")
-        throw "Usage error: option style must be either import or require!"
-
+    return
+    
 #endregion
 
 #region exposed functions
