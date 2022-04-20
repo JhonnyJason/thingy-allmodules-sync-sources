@@ -1,34 +1,30 @@
-startupmodule = {name: "startupmodule"}
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("startupmodule")
 
-#region node_modules
-c       = require('chalk')
 #endregion
 
-#log Switch
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["startupmodule"]?  then console.log "[startupmodule]: " + arg
-    return
+##############################################################################
+#region modulesFromEnvironment
+import * as c from 'chalk'
 
+##############################################################################
+import *  as syncProcess from "./syncprocessmodule"
+import * as cliArguments from "./cliargumentsmodule"
+
+#endregion
+
+##############################################################################
 #region internal variables
 errLog = (arg) -> console.log(c.red(arg))
 successLog = (arg) -> console.log(c.green(arg))
 
-syncProcess = null
-cliArguments = null
 #endregion
 
-##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
-startupmodule.initialize = () ->
-    log "startupmodule.initialize"
-    syncProcess = allModules.syncprocessmodule
-    cliArguments = allModules.cliargumentsmodule
-
-#region internal functions
-#endregion
-
-#region exposed functions
-startupmodule.cliStartup = ->
-    log "startupmodule.cliStartup"
+##############################################################################
+export cliStartup = ->
+    log "cliStartup"
     try
         e = cliArguments.extractArguments()
         # console.log(chalk.yellow("caught arguments are: " + args._))
@@ -39,6 +35,3 @@ startupmodule.cliStartup = ->
         console.log err
         console.log "\n"
 
-#endregion exposed functions
-
-module.exports = startupmodule

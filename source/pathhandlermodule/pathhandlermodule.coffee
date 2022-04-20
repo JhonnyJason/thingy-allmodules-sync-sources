@@ -1,49 +1,49 @@
-pathhandlermodule = {name: "pathhandlermodule"}
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("pathhandlermodule")
 
-#region node_modules
-c           = require('chalk');
-CLI         = require('clui');
-Spinner     = CLI.Spinner;
-fs          = require("fs-extra")
-pathModule  = require("path")
 #endregion
 
-#log Switch
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["pathhandlermodule"]?  then console.log "[pathhandlermodule]: " + arg
-    return
+##############################################################################
+#region modulesFromEnvironment
+import fs from "fs-extra"
+import * as c from 'chalk'
+import * as pathModule from "path"
 
-#region internal variables
-utl = null
+##############################################################################
+import  * as utl from "./utilmodule.js"
+
 #endregion
 
+##############################################################################
 #region exposed variables
-pathhandlermodule.sourcePath = ""
-pathhandlermodule.allmodulesPath = ""
-pathhandlermodule.thingyPath = ""
+o = {
+    sourcePath: ""
+    allmodulesPath: ""
+    thingyPath: ""
+} 
+export sourcePath = o.sourcePath
+export allmodulesPath = o.allmodulesPath
+export thingyPath = o.thingyPath
 #endregion
 
-##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
-pathhandlermodule.initialize = () ->
-    log "pathhandlermodule.initialize"
-    utl = allModules.utilmodule
-    return
-
+##############################################################################
 #region internal functions
 findSourcePath = ->
     log "findSourcePath"
-    sourcePath = pathModule.resolve(pathhandlermodule.thingyPath, "sources/source")
+    sourcePath = pathModule.resolve(o.thingyPath, "sources/source")
     exists = await utl.pathIsDir(sourcePath)
     if !exists
         throw new Error("sourcePath: " + sourcePath + " did not exist! The provided path might not be the thingy root.")
-    pathhandlermodule.sourcePath = sourcePath
+    o.sourcePath = sourcePath
 
 findAllmodulesPath = ->
     log "findAllmodulesPath"
-    allmodulesPath = pathModule.resolve(pathhandlermodule.sourcePath, "allmodules")
+    allmodulesPath = pathModule.resolve(o.sourcePath, "allmodules")
     exists = await utl.pathIsDir(allmodulesPath)
     if !exists then await fs.mkdirs(allmodulesPath)
-    pathhandlermodule.allmodulesPath = allmodulesPath
+    o.allmodulesPath = allmodulesPath
 
 checkProvidedPath = (providedPath) ->
     log "checkProvidedPath"
@@ -58,38 +58,37 @@ checkProvidedPath = (providedPath) ->
     if !exists
         throw new Error("Provided path:'" + providedPath + "' does not exist!")
     
-    pathhandlermodule.thingyPath = providedPath
+    o.thingyPath = providedPath
 
 #endregion
 
+##############################################################################
 #region exposed functions
-pathhandlermodule.checkPaths = (providedPath) ->
-    log "pathhandlermodule.checkPaths"
+export checkPaths = (providedPath) ->
+    log "checkPaths"
 
     log "checking for providedPath: " + providedPath
     await checkProvidedPath(providedPath)
-    log "resulting thingy path is: " + pathhandlermodule.thingyPath
+    log "resulting thingy path is: " + o.thingyPath
         
     await findSourcePath()
     await findAllmodulesPath()
 
-pathhandlermodule.getCoffeePath = (module) ->
-    log "pathhandlermodule.getCoffeeModulePath"
+export getCoffeePath = (module) ->
+    log "getCoffeeModulePath"
     pathPostfix = "" + module + "/" + module + ".coffee"
-    return pathModule.resolve(pathhandlermodule.sourcePath, pathPostfix)
+    return pathModule.resolve(o.sourcePath, pathPostfix)
 
-pathhandlermodule.getStylePath = (module) ->
-    log "pathhandlermodule.getStylePath"
+export getStylePath = (module) ->
+    log "getStylePath"
     pathPostfix = "" + module + "/styles.styl"
-    return pathModule.resolve(pathhandlermodule.sourcePath, pathPostfix)
+    return pathModule.resolve(o.sourcePath, pathPostfix)
 
-pathhandlermodule.getPackageJsonPath = ->
-    log "pathhandlermodule.getPackageJsonPath"
-    return pathModule.resolve(pathhandlermodule.thingyPath, "package.json")
+export getPackageJsonPath = ->
+    log "getPackageJsonPath"
+    return pathModule.resolve(o.thingyPath, "package.json")
 
-pathhandlermodule.getAllmodulesPath = -> pathhandlermodule.allmodulesPath
+export getAllmodulesPath = -> o.allmodulesPath
 
-pathhandlermodule.getSourcePath = -> pathhandlermodule.sourcePath
+export getSourcePath = -> o.sourcePath
 #endregion
-
-module.exports = pathhandlermodule

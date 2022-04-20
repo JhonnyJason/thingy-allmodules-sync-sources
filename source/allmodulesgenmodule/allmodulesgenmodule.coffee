@@ -1,8 +1,8 @@
-################################################################################
-#region printLogFunctions
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["allmodulesgenmodule"]?  then console.log "[allmodulesgenmodule]: " + arg
-    return
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("allmodulesgenmodule")
+
 #endregion
 
 ################################################################################

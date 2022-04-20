@@ -1,30 +1,16 @@
-utilmodule = {name: "utilmodule"}
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("utilmodule")
 
-#region noode_modules
-fs = require "fs-extra"
 #endregion
 
-#log Switch
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["utilmodule"]?  then console.log "[utilmodule]: " + arg
-    return
+##############################################################################
+import fs from "fs-extra"
 
-#region internal variables
-#endregion
-
-#region exposed variables
-#endregion
-
-
-##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
-utilmodule.initialize = () ->
-    log "utilmodule.initialize"
-
-#region internal functions
-#endregion
-
+##############################################################################
 #region exposed functions
-utilmodule.pathIsDir = (path) ->
+export pathIsDir = (path) ->
     try
         stats = await fs.lstat(path)
         return stats.isDirectory()
@@ -32,7 +18,7 @@ utilmodule.pathIsDir = (path) ->
         # console.log(c.red(err.message))
         return false
 
-utilmodule.pathExists = (path) ->
+export pathExists = (path) ->
     try
         await fs.lstat(path)
         return true
@@ -40,5 +26,3 @@ utilmodule.pathExists = (path) ->
         # console.log(c.red(err.message))
         return false
 #endregion
-
-module.exports = utilmodule

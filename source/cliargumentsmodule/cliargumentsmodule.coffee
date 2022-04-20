@@ -1,8 +1,8 @@
-################################################################################
-#region logSwitch
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["cliargumentsmodule"]?  then console.log "[cliargumentsmodule]: " + arg
-    return
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("cliargumentsmodule")
+
 #endregion
 
 ################################################################################

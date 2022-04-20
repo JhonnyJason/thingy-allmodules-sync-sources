@@ -1,41 +1,30 @@
-syncprocessmodule = {name: "syncprocessmodule"}
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("syncprocessmodule")
 
-#region node_modules
-c       = require('chalk')
 #endregion
 
-#log Switch
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["syncprocessmodule"]?  then console.log "[syncprocessmodule]: " + arg
-    return
+##############################################################################
+#region modulesFromEnvironment
+import * as c from 'chalk'
 
-#region internal variables
+##############################################################################
+import * as pathHandler from "./pathhandermodule.js"
+import * as moduleSearch from "./modulesearchmodule.js"
+import * as allmodulesgen from "./allmodulesgenmodule.js"
+
+#endregion
+
+##############################################################################
 successMessage = (arg) -> console.log(c.green(arg))
 
-pathHandler = null
-moduleSearch = null
-allmodulesgen = null
-#endregion
-
-##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
-syncprocessmodule.initialize = () ->
-    log "syncprocessmodule.initialize"
-    pathHandler = allModules.pathhandlermodule
-    moduleSearch = allModules.modulesearchmodule
-    allmodulesgen = allModules.allmodulesgenmodule
-
-#region internal functions
-#endregion
-
-#region exposed functions
-syncprocessmodule.execute = (path) ->
-    log "syncprocessmodule.execute"
+##############################################################################
+export execute = (path) ->
+    log "execute"
     await pathHandler.checkPaths(path)
     modules = await moduleSearch.searchModules()
     log "found modules\n" + JSON.stringify(modules, null, 4)
     await allmodulesgen.generate(modules)
     return true
     
-#endregion
-
-module.exports = syncprocessmodule

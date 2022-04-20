@@ -1,26 +1,28 @@
-modulesearchmodule = {name: "modulesearchmodule"}
+##############################################################################
+#region debug
+import {createLogFunctions} from "thingy-debug"
+{log, olog} = createLogFunctions("modulesearchmodule")
 
-#region node_modules
-fs = require "fs-extra"
-#endregion
-
-#redion internal variables
-pathHandler = null
-utl = null
 #endregion
 
 ##############################################################################
-log = (arg) ->
-    if allModules.debugmodule.modulesToDebug["modulesearchmodule"]?  then console.log "[modulesearchmodule]: " + arg
-    return
+#region modulesFromEnvironment
+import fs from "fs-extra"
 
 ##############################################################################
-modulesearchmodule.initialize = () ->
-    log "modulesearchmodule.initialize"
+import * as pathHandler from "./pathhandlermodule.js"
+import * as utl from "./utilmodule.js"
+
+#endregion
+
+##############################################################################
+export initialize = ->
+    log "initialize"
     pathHandler = allModules.pathhandlermodule
     utl = allModules.utilmodule
     return
     
+##############################################################################
 #region internal functions
 isModule = (dirname) ->
     if !dirname then return false
@@ -47,9 +49,10 @@ isStyleModule = (dir) ->
 
 #endregion
 
+##############################################################################
 #region exposed functions
-modulesearchmodule.searchModules = ->
-    log "modulesearchmodule.searchModules"
+export searchModules = ->
+    log "searchModules"
 
     dirs = await fs.readdir(pathHandler.sourcePath)
     # log "read dirs:\n" + JSON.stringify(dirs, null, 4)
@@ -67,5 +70,3 @@ modulesearchmodule.searchModules = ->
     return modules
 
 #endregion
-
-module.exports = modulesearchmodule
