@@ -1,11 +1,29 @@
-debugmodule = {name: "debugmodule"}
+toJson = (obj) -> JSON.stringify(obj, null, 4)
 
-##initialization function  -> is automatically being called!  ONLY RELY ON DOM AND VARIABLES!! NO PLUGINS NO OHTER INITIALIZATIONS!!
-debugmodule.initialize = () ->
-    # console.log "debugmodule.initialize - nothing to do"
+export getLogFunctions = (modulename) ->
+    log = (arg) ->
+        if modulesToDebug[modulename]  then console.log "["+modulename+"]: " + arg
+        return
+    olog = (obj) -> log "\n" + ostr(obj)
+    return { log, olog }
+
+export switchOnDebugging = (modulename) ->
+    modulesToDebug[modulename] = true
     return
 
-debugmodule.modulesToDebug = 
+export switchOffDebugging = (modulename) ->
+    delete modulesToDebug[modulename]
+    return
+
+export addModulesToDebug = (toDebug) ->
+    for name,toD of toDebug when toD then modulesToDebug[name] = true
+    return
+
+################################################################################
+import { addModulesToDebug } from "thingy-debug"
+
+################################################################################
+modulesToDebug = 
     unbreaker: true
     # allmodulesgenmodule: true
     # cliargumentsmodule: true
@@ -16,6 +34,4 @@ debugmodule.modulesToDebug =
     # startupmodule: true
     # utilmodule: true
 
-#region exposed variables
-
-module.exports = debugmodule
+addModulesToDebug(modulesToDebug)

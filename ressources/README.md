@@ -1,16 +1,17 @@
 # thingy-allmodules-sync - commandline wizard to create the appropriate allmodules files
 
-# Why?
-The process of adding a newly added module or erasing them from the allmodules files is too tedious.
+# Background
+For my current development process I find it handy to have a `allmodules.coffee` or `allstyles.styl` file by in `sources/source/allmodules`.
+My current developtment style is to develop on my things as [thingies](https://hackmd.io/CWQerPTRR0CrRd-gpKKd-Q).
 
-Usually this tool is used from a a thingy toolset.
+This way I could reach all of the thingymodules at one point and automate away the task to add the modules there whenever modules added or removed.
+This is the automation tool for creating these files.
 
-# What?
-This tool will scan through all modules available in `sources/source/` of the specified thingy.
+It will scan through all modules available in `sources/source/` of the specified thingy.
 For each module being a module (identified by having a name whichs ends with "module") we will add an import statement
 to the `allmodules.coffee` and `allstyles.styl` files. Those files may be found at `sources/source/allmodules/`.
 
-# How?
+# Usage
 Installation
 ------------
 
@@ -23,19 +24,17 @@ Npm Registry
 $ npm install thingy-allmodules-sync
 ```
 
-Usage
+ClI
 -----
 
 ```sh
     Usage
-        $ thingy-allmodules-sync <arg1> <arg2>
+        $ thingy-allmodules-sync <arg1>
 
     Options
         optional:
             arg1, --thingy-path <path/to/thingy>, -p <path/to/thingy> [default: ./ ]
                 path to the root of the thingy. Usually it is cwd. Use it if you call this script from somewhere else.
-            arg2, --style <importStyle>, -s <importStyle> [default: import]
-                determines if we use require or import can either be "require" or "import"
     TO NOTE:
         The flags will overwrite the flagless argument.
     Examples
@@ -44,18 +43,13 @@ Usage
 ```
 
 The `thingyPath` is optional and will be the current working directory when being omitted.
-Also 'style' is optional and will be "import" when being omitted.
+The generation will fail when we donot have a `sources/source/allmodules` with this `thingyPath`.
 
-The generation will fail when we are not in a thingy root. That means that we should have a `sources/source/allmodules` we will add our files.
-
-We have two styles for the allmodules.coffee file - either we have the require style or the import style. In any case we will export the module containing all modules in the same style.
-
-If you use a nodejs thingy then you might want to use the require style. Then you should provide the `--style require` argument.
  
 # Further steps
 Are there any? 
 
-- inject all modules into debugmodule? 
+- fix bugs
 - ...
 
 All sorts of inputs are welcome, thanks!

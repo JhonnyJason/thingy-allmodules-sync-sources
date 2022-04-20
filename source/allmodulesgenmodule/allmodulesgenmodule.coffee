@@ -1,30 +1,38 @@
-allmodulesgenmodule = {name: "allmodulesgenmodule"}
-
-#region modulesFromTheEnvironment
-#region node_modules
-fs = require "fs-extra"
-mustache = require "mustache"
-pathModule = require "path"
-#endregion
-
-#region localModules
-pathHandler = null
-cfg = null
-#endregion
-#endregion
-
+################################################################################
 #region printLogFunctions
 log = (arg) ->
     if allModules.debugmodule.modulesToDebug["allmodulesgenmodule"]?  then console.log "[allmodulesgenmodule]: " + arg
     return
 #endregion
+
 ################################################################################
-allmodulesgenmodule.initialize = () ->
-    log "allmodulesgenmodule.initialize"
+#region modulesFromTheEnvironment
+
+################################################################################
+#region node_modules
+import fs from "fs-extra"
+import * as mustache from  "mustache"
+import * as pathModule from "path"
+
+#endregion
+
+################################################################################
+#region localModules
+pathHandler = null
+cfg = null
+
+#endregion
+
+#endregion
+
+################################################################################
+export initialize = ->
+    log "initialize"
     pathHandler = allModules.pathhandlermodule
     cfg = allModules.configmodule
     return
 
+################################################################################
 #region internalFunctions
 writeStyl = (styleModules) ->
     log "writeStyl"
@@ -59,9 +67,10 @@ writeCoffee = (coffeeModules) ->
 
 #endregion
 
+################################################################################
 #region exposedFunctions
-allmodulesgenmodule.generate = (modules) ->
-    log "allmodulesgenmodule.generate"
+export generate = (modules) ->
+    log "generate"
 
     promises = []
     if modules.coffee && modules.coffee.length > 0
@@ -74,5 +83,3 @@ allmodulesgenmodule.generate = (modules) ->
     return
     
 #endregion
-
-module.exports = allmodulesgenmodule
