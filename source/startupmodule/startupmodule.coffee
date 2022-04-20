@@ -7,11 +7,11 @@ import {createLogFunctions} from "thingy-debug"
 
 ##############################################################################
 #region modulesFromEnvironment
-import * as c from 'chalk'
+import c from 'chalk'
 
 ##############################################################################
-import *  as syncProcess from "./syncprocessmodule"
-import * as cliArguments from "./cliargumentsmodule"
+import *  as syncProcess from "./syncprocessmodule.js"
+import * as cliArguments from "./cliargumentsmodule.js"
 
 #endregion
 
@@ -27,7 +27,6 @@ export cliStartup = ->
     log "cliStartup"
     try
         e = cliArguments.extractArguments()
-        # console.log(chalk.yellow("caught arguments are: " + args._))
         done = await syncProcess.execute(e.thingyPath)
         if done then successLog 'All done!'
     catch err

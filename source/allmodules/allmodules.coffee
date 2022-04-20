@@ -1,12 +1,12 @@
-import * as allmodulesgenmodule from "./allmodulesgenmodule"
-import * as cliargumentsmodule from "./cliargumentsmodule"
-import * as configmodule from "./configmodule"
-import * as debugmodule from "./debugmodule"
-import * as modulesearchmodule from "./modulesearchmodule"
-import * as pathhandlermodule from "./pathhandlermodule"
-import * as startupmodule from "./startupmodule"
-import * as syncprocessmodule from "./syncprocessmodule"
-import * as utilmodule from "./utilmodule"
+import * as allmodulesgenmodule from "./allmodulesgenmodule.js"
+import * as cliargumentsmodule from "./cliargumentsmodule.js"
+import * as configmodule from "./configmodule.js"
+import * as debugmodule from "./debugmodule.js"
+import * as modulesearchmodule from "./modulesearchmodule.js"
+import * as pathhandlermodule from "./pathhandlermodule.js"
+import * as startupmodule from "./startupmodule.js"
+import * as syncprocessmodule from "./syncprocessmodule.js"
+import * as utilmodule from "./utilmodule.js"
 
 Modules = {
     allmodulesgenmodule,

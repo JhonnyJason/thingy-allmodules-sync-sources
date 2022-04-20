@@ -6,61 +6,66 @@ import {createLogFunctions} from "thingy-debug"
 #endregion
 
 ################################################################################
-#region modulesFromTheEnvironment
-
-################################################################################
-#region node_modules
+#region imports
 import fs from "fs-extra"
-import * as mustache from  "mustache"
+import M from  "mustache"
 import * as pathModule from "path"
 
-#endregion
-
 ################################################################################
-#region localModules
-pathHandler = null
-cfg = null
-
-#endregion
+import * as pathHandler from "./pathhandlermodule.js"
+import * as cfg from "./configmodule.js" 
 
 #endregion
 
 ################################################################################
-export initialize = ->
-    log "initialize"
-    pathHandler = allModules.pathhandlermodule
-    cfg = allModules.configmodule
-    return
+#region templates
+allModulesTemplate = """
+    {{#modules}}
+    import * as {{.}} from "./{{.}}.js"
+    {{/modules}}
+
+    Modules = {
+    {{#modules}}
+        {{.}},
+    {{/modules}}
+    }
+
+    export default Modules
+    """
+
+allStylesTemplate = """
+    {{#modules}}
+    @import '../{{.}}/styles.styl'
+    {{/modules}}
+    """
+
+#endregion
 
 ################################################################################
-#region internalFunctions
+#region internal functions
 writeStyl = (styleModules) ->
     log "writeStyl"
 
-    templatePath = pathModule.resolve(__dirname, "file-templates/allstyles.mustache")
     fileName = cfg.outputStylusName
-    filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
-    # log "filePath: " + filePath
+    filePath = pathModule.resolve(pathHandler.getAllmodulesPath(), fileName)
 
-    template = await fs.readFile(templatePath, "utf-8")        
-    fileContent = mustache.render(template, {modules: styleModules})
+    fileContent = M.render(allStylesTemplate, {modules: styleModules})
     
-    # log "\n - - - \nfileContent:\n" + fileContent
+    log "filePath: " + filePath
+    log "\n - - - \nfileContent:\n" + fileContent
     await fs.writeFile(filePath, fileContent)
     return
 
 writeCoffee = (coffeeModules) ->
     log "writeCoffee"
 
-    templatePath = pathModule.resolve(__dirname, "file-templates/allmodules.mustache")
     fileName = cfg.outputCoffeeName
-    filePath = pathModule.resolve(pathHandler.allmodulesPath,  fileName)
-    # log "filePath: " + filePath
+    filePath = pathModule.resolve(pathHandler.getAllmodulesPath(), fileName)
 
-    template = await fs.readFile(templatePath, "utf-8")        
-    fileContent = mustache.render(template, {modules: coffeeModules})
+    fileContent = M.render(allModulesTemplate, {modules: coffeeModules})
     
-    # log "\n - - - \nfileContent:\n" + fileContent
+    log "filePath: " + filePath
+    log "\n - - - \nfileContent:\n" + fileContent
     await fs.writeFile(filePath, fileContent)
 
     return
@@ -68,7 +73,7 @@ writeCoffee = (coffeeModules) ->
 #endregion
 
 ################################################################################
-#region exposedFunctions
+#region exports
 export generate = (modules) ->
     log "generate"
 

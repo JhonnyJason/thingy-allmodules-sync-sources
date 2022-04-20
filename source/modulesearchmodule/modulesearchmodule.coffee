@@ -14,13 +14,6 @@ import * as pathHandler from "./pathhandlermodule.js"
 import * as utl from "./utilmodule.js"
 
 #endregion
-
-##############################################################################
-export initialize = ->
-    log "initialize"
-    pathHandler = allModules.pathhandlermodule
-    utl = allModules.utilmodule
-    return
     
 ##############################################################################
 #region internal functions
@@ -53,8 +46,7 @@ isStyleModule = (dir) ->
 #region exposed functions
 export searchModules = ->
     log "searchModules"
-
-    dirs = await fs.readdir(pathHandler.sourcePath)
+    dirs = await fs.readdir(pathHandler.getSourcePath())
     # log "read dirs:\n" + JSON.stringify(dirs, null, 4)
 
     coffeeCheckPromises = (isCoffeeModule(dir) for dir in dirs when isModule(dir))

@@ -8,7 +8,7 @@ import {createLogFunctions} from "thingy-debug"
 ##############################################################################
 #region modulesFromEnvironment
 import fs from "fs-extra"
-import * as c from 'chalk'
+import c from 'chalk'
 import * as pathModule from "path"
 
 ##############################################################################
@@ -17,33 +17,28 @@ import  * as utl from "./utilmodule.js"
 #endregion
 
 ##############################################################################
-#region exposed variables
-o = {
-    sourcePath: ""
-    allmodulesPath: ""
-    thingyPath: ""
-} 
-export sourcePath = o.sourcePath
-export allmodulesPath = o.allmodulesPath
-export thingyPath = o.thingyPath
-#endregion
+sourcePath = ""
+allmodulesPath = ""
+thingyPath = ""
 
 ##############################################################################
 #region internal functions
 findSourcePath = ->
     log "findSourcePath"
-    sourcePath = pathModule.resolve(o.thingyPath, "sources/source")
+    sourcePath = pathModule.resolve(thingyPath, "sources/source")
     exists = await utl.pathIsDir(sourcePath)
     if !exists
         throw new Error("sourcePath: " + sourcePath + " did not exist! The provided path might not be the thingy root.")
-    o.sourcePath = sourcePath
+    sourcePath = sourcePath
+    return
 
 findAllmodulesPath = ->
     log "findAllmodulesPath"
-    allmodulesPath = pathModule.resolve(o.sourcePath, "allmodules")
+    allmodulesPath = pathModule.resolve(sourcePath, "allmodules")
     exists = await utl.pathIsDir(allmodulesPath)
     if !exists then await fs.mkdirs(allmodulesPath)
-    o.allmodulesPath = allmodulesPath
+    allmodulesPath = allmodulesPath
+    return
 
 checkProvidedPath = (providedPath) ->
     log "checkProvidedPath"
@@ -58,7 +53,8 @@ checkProvidedPath = (providedPath) ->
     if !exists
         throw new Error("Provided path:'" + providedPath + "' does not exist!")
     
-    o.thingyPath = providedPath
+    thingyPath = providedPath
+    return
 
 #endregion
 
@@ -69,26 +65,31 @@ export checkPaths = (providedPath) ->
 
     log "checking for providedPath: " + providedPath
     await checkProvidedPath(providedPath)
-    log "resulting thingy path is: " + o.thingyPath
+    log "resulting thingy path is: " + thingyPath
         
     await findSourcePath()
     await findAllmodulesPath()
+    return
 
 export getCoffeePath = (module) ->
     log "getCoffeeModulePath"
     pathPostfix = "" + module + "/" + module + ".coffee"
-    return pathModule.resolve(o.sourcePath, pathPostfix)
+    return pathModule.resolve(sourcePath, pathPostfix)
 
 export getStylePath = (module) ->
     log "getStylePath"
     pathPostfix = "" + module + "/styles.styl"
-    return pathModule.resolve(o.sourcePath, pathPostfix)
+    return pathModule.resolve(sourcePath, pathPostfix)
 
 export getPackageJsonPath = ->
     log "getPackageJsonPath"
-    return pathModule.resolve(o.thingyPath, "package.json")
+    return pathModule.resolve(thingyPath, "package.json")
 
-export getAllmodulesPath = -> o.allmodulesPath
+##############################################################################
+export getSourcePath = -> sourcePath
 
-export getSourcePath = -> o.sourcePath
+export getAllmodulesPath = -> allmodulesPath
+
+export getThingyPath = -> thingyPath
+
 #endregion

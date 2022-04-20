@@ -4,7 +4,7 @@
 For my current development process I find it handy to have a `allmodules.coffee` or `allstyles.styl` file by in `sources/source/allmodules`.
 My current developtment style is to develop on my things as [thingies](https://hackmd.io/CWQerPTRR0CrRd-gpKKd-Q).
 
-This way I could reach all of the thingymodules at one point and automate away the task to add the modules there whenever modules added or removed.
+This way I could reach all of the thingymodules at one point and automate away the task to add the modules there whenever thingymodules added or removed.
 This is the automation tool for creating these files.
 
 It will scan through all modules available in `sources/source/` of the specified thingy.
